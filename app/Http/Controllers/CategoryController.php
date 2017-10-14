@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Category;
+use App\User;
+use JWTAuth;
+use JWTAuthException;
 class CategoryController extends Controller
 {
     /**
@@ -11,9 +14,38 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function authenticate(Request $request){
+     	$credentials = $request->only('email', 'password');
+         $token = null;
+         try {
+             if (!$token = JWTAuth::attempt($credentials)) {
+                 return response()->json([
+                     'response' => 'error',
+                     'message' => 'invalid_email_or_password',
+                 ]);
+             }
+         } catch (JWTAuthException $e) {
+             return response()->json([
+                 'response' => 'error',
+                 'message' => 'failed_to_create_token',
+             ]);
+         }
+         $email = $request->Input('email');
+         $user = User::where('email', $email)->get();
+         return response()->json([
+             'response' => 'success',
+             'result' => [
+                 'token' => $token,
+                 'user' => $user
+             ],
+         ]);
+     }
+
     public function index()
     {
-        //
+        $category = Category::all();
+        return response()->json(['category' => $category]);
     }
 
     /**
@@ -23,7 +55,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+      //
     }
 
     /**
@@ -34,7 +66,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $title = request()->title;
+      $category = Category::create([
+        'title' => $title
+      ]);
+      return response()->json(['message' => 'Categoria Guardada', 'category' => $category]);
     }
 
     /**
@@ -45,7 +81,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = Category::find($id);
+        return response()->json(['category' => $category]);
     }
 
     /**
@@ -68,7 +105,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::find($id);
+        $category->title = request()->title;
+        $category->update();
+        return response()->json([
+          'message' => 'Categoria Actualizada',
+          'category' => $category
+        ]);
     }
 
     /**

@@ -7,7 +7,7 @@ use Test;
 class Category extends Model
 {
     protected $fillable = [
-        'title',
+        'title'
     ];
 
     public function Test()

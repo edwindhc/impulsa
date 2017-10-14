@@ -3,18 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
-class TestController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
+     public function index(){
+       $user = User::all();
+       return response()->json([
+         'user' => $user
+       ]);
+     }
 
     /**
      * Show the form for creating a new resource.
@@ -45,7 +48,8 @@ class TestController extends Controller
      */
     public function show($id)
     {
-        //
+      $user = User::find($id);
+      return response()->json(['user' => $user]);
     }
 
     /**
@@ -68,7 +72,16 @@ class TestController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $user = User::find($id);
+      $user->name = request()->name;
+      $user->email = request()->email;
+      $user->password = request()->password;
+      $user->rol = request()->rol;
+      $user->update();
+      return response()->json([
+        'message' => 'Usuario Actualizado',
+        'user' => $user
+      ]);
     }
 
     /**
@@ -79,6 +92,10 @@ class TestController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id)->delete();
+        return response()->json([
+          'message'=> 'Usuario eliminado',
+          'user' => $user
+        ]);
     }
 }

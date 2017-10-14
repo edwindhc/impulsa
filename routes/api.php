@@ -21,8 +21,22 @@ Route::get('/name', function(Request $request){
 	return $user;
 })->middleware('jwt.auth');
 
-Route::post('/authenticate', [
-	'uses' => 'ApiAuthController@authenticate']);
+Route::get('category', 'CategoryController@index');
+Route::get('category/{id}', 'CategoryController@show');
+Route::post('category', 'CategoryController@store');
+Route::post('category/{id}', 'CategoryController@update');
+
+
+//users
+Route::get('users', 'UserController@index');
+Route::get('user/{id}', 'UserController@show');
+Route::post('user', 'UserController@store');
+Route::put('user/{id}', 'UserController@update');
+Route::delete('user/{id}', 'UserController@destroy');
+
+//
+Route::post('authenticate', [
+	'uses' => 'CategoryController@authenticate']);
 
 Route::post('/register',[
 	'uses' => 'ApiAuthController@register']);
