@@ -5,7 +5,8 @@ use App\Category;
 
 $factory->define(App\Test::class, function (Faker $faker) {
     return [
-        'title' => $faker->Company,
+        'title_test' => $faker->Company,
+        'description' => $faker->Text,
         'id_category' => factory(Category::class)->create()->id,
     ];
 });

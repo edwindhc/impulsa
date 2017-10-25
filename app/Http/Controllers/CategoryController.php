@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Category;
 use App\User;
@@ -41,6 +40,23 @@ class CategoryController extends Controller
              ],
          ]);
      }
+
+     public function register(){
+    	$email = request()->email;
+    	$name = request()->name;
+    	$password = request()->password;
+
+    	$user = User::create([
+    		'name' => $name,
+    		'email' => $email,
+    		'password' => bcrypt($password)
+    		]);
+
+    	$token = JWTAuth::fromUser($user);
+      $user = JWTAuth::toUser($token);
+
+    	return response()->json(['token' => $token, 'user' => $user], 200);
+    }
 
     public function index()
     {

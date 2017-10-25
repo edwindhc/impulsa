@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Answer;
+use App\Test;
 
 class AnswerController extends Controller
 {
@@ -13,7 +15,8 @@ class AnswerController extends Controller
      */
     public function index()
     {
-        //
+      $answer = Answer::all();
+      return response()->json(['answer' => $answer]);
     }
 
     /**
@@ -45,7 +48,8 @@ class AnswerController extends Controller
      */
     public function show($id)
     {
-        //
+      $answer = Answer::where('id_question', $id)->get();
+      return response()->json(['answer' => $answer]);
     }
 
     /**

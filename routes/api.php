@@ -34,9 +34,21 @@ Route::post('user', 'UserController@store');
 Route::put('user/{id}', 'UserController@update');
 Route::delete('user/{id}', 'UserController@destroy');
 
+// Test
+Route::get('test', 'TestController@index');
+Route::get('test/{id}', 'TestController@show');
+
+// Questions
+Route::get('question', 'QuestionController@index');
+Route::get('question/{id}', 'QuestionController@show');
+
+// Answer
+Route::get('answer', 'AnswerController@index');
+Route::get('answer/{id}', 'AnswerController@show');
+
 //
 Route::post('authenticate', [
 	'uses' => 'CategoryController@authenticate']);
 
 Route::post('/register',[
-	'uses' => 'ApiAuthController@register']);
+	'uses' => 'CategoryController@register']);

@@ -15,7 +15,8 @@ class CreateTestsTable extends Migration
     {
         Schema::create('tests', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
+            $table->string('title_test');
+            $table->text('description');
             $table->integer('id_category')->unsigned();
             $table->timestamps();
             $table->foreign('id_category')->references('id')->on('categories');

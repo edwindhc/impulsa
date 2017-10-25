@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Test;
+use App\Category;
+use App\Question;
+use DB;
+use App\Answer;
+use Log;
 class TestController extends Controller
 {
     /**
@@ -13,7 +18,8 @@ class TestController extends Controller
      */
     public function index()
     {
-        //
+      $test = Test::select('tests.*','categories.title')->join('categories', 'tests.id_category', '=', 'categories.id')->get();
+      return response()->json(['test' => $test]);
     }
 
     /**
@@ -45,7 +51,17 @@ class TestController extends Controller
      */
     public function show($id)
     {
-        //
+      // $question = Question::where('id_test', $id)->get();
+      $question = Question::where('id_test', $id)->get();
+      $prueba = $question->count();
+      for ($i=0; $i < $prueba; $i++) {
+        error_log([i]);
+      }
+      // $answerCount = $question->count();
+      // $answer = Answer::where('id_test', $id)->get();
+      // $merged = $answer->merge($question);
+      // $collection_one->merger($answer);
+      return response()->json(['question' => $question]);
     }
 
     /**
